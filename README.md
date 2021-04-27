@@ -1,4 +1,4 @@
-#Blinking The ACT LED on a Rpi Zero
+# Blinking The ACT LED on a Rpi Zero
 
 This is a basic baremetal program to blink the inbuilt ACT LED on the Raspberry Pi Zero, while making use of the System Timer on the device.
 
