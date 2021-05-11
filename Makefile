@@ -12,14 +12,16 @@ clean :
 	rm -f *.list
 	rm -f *.img
 
+init.o : init.s
+	$(ARMGNU)-as $(AOPS) init.s -o init.o
 
-main.o : main.c
-	$(ARMGNU)-gcc $(COPS) -c main.c -o main.o
+blink.o : blink.c 
+	$(ARMGNU)-gcc $(COPS) -c blink.c -o blink.o
 
-main.elf : memmap main.o
-	$(ARMGNU)-ld main.o -T memmap -o main.elf
-	$(ARMGNU)-objdump -D main.elf > main.list
+blink.elf : memmap blink.o init.o
+	$(ARMGNU)-ld init.o blink.o -T memmap -o blink.elf
+	$(ARMGNU)-objdump -D blink.elf > blink.list
 
-kernel.img : main.elf
-	$(ARMGNU)-objcopy --srec-forceS3 main.elf -O srec main.srec
-	$(ARMGNU)-objcopy main.elf -O binary kernel.img
+kernel.img : blink.elf
+	$(ARMGNU)-objcopy --srec-forceS3 blink.elf -O srec blink.srec
+	$(ARMGNU)-objcopy blink.elf -O binary kernel.img
